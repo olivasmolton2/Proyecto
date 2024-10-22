@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Problemas de FluidSIM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #problem-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        #chatbot {
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+            padding-top: 20px;
+        }
+
+        #chatbot input {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        #chatbot button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #chatbot button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            .btn, #chatbot button {
+                width: 100%;
+            }
+            #chatbot input {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generador de Problemas de FluidSIM</h1>
+
+        <p>Este generador proporciona problemas para practicar sistemas neumáticos e hidráulicos. Selecciona el tipo de problema que deseas generar:</p>
+
+        <button class="btn" onclick="generateProblem('neumatico')">Generar Problema Neumático</button>
+        <button class="btn" onclick="generateProblem('hidraulico')">Generar Problema Hidráulico</button>
+
+        <div id="problem-container">
+            <h2>Problema Generado:</h2>
+            <p id="problem-text">Haz clic en uno de los botones para generar un problema.</p>
+            <img id="problem-image" src="" alt="Imagen del circuito" style="display:none;">
+        </div>
+
+        <!-- Chatbot Section -->
+        <div id="chatbot">
+            <h2>Asistente Virtual de FluidSIM</h2>
+            <p>Hazle preguntas relacionadas con sistemas neumáticos e hidráulicos o sobre el circuito asignado.</p>
+            <input type="text" id="chatbot-input" placeholder="Escribe tu pregunta aquí..." required>
+            <button onclick="askChatbot()">Enviar</button>
+            <p id="chatbot-response"></p>
+        </div>
+    </div>
+
+    <script>
+        // Lista de problemas
+        const problems = {
+            neumatico: [
+                { text: "Diseña un sistema neumático para controlar la apertura y cierre de una puerta automática.", image: "https://example.com/PUERTA_Neumatica.jpg" },
+                { text: "Desarrolla un circuito neumático para elevar y bajar una plataforma de carga.", image: "https://example.com/PLATAFORMA_CARGA.jpeg" },
+                { text: "Controla un cilindro neumático de doble efecto para un sistema de prensado en una máquina.", image: "https://example.com/PRENSA_NEUMATICA.jpg" },
+                { text: "Configura un circuito neumático para automatizar una cadena de montaje.", image: "https://example.com/cadena_montaje.jpg" },
+                { text: "Crea un sistema de control neumático para una línea de producción en una fábrica de botellas.", image: "https://example.com/fabrica_botellas.jpg" }
+            ],
+            hidraulico: [
+                { text: "Diseña un circuito hidráulico para controlar el brazo de una excavadora.", image: "https://example.com/excavadora_hidraulica.jpg" },
+                { text: "Genera un sistema hidráulico para el accionamiento de una prensa industrial.", image: "https://example.com/prensa_hidraulica.jpg" },
+                { text: "Configura un circuito hidráulico que regule la velocidad de un cilindro en una cortadora.", image: "https://example.com/cortadora_hidraulica.jpg" },
+                { text: "Diseña un sistema hidráulico para una grúa de construcción que eleva cargas pesadas.", image: "https://example.com/grua_construccion.jpg" },
+                { text: "Crea un sistema de control hidráulico para un elevador en una planta de manufactura.", image: "https://example.com/elevador_manufactura.jpg" }
+            ]
+        };
+
+        // Función para generar problema
+        function generateProblem(type) {
+            const problemList = problems[type];
+            const randomProblem = problemList[Math.floor(Math.random() * problemList.length)];
+            document.getElementById("problem-text").innerText = randomProblem.text;
+            document.getElementById("problem-image").src = randomProblem.image;
+            document.getElementById("problem-image").style.display = "block";
+        }
+
+        // Chatbot básico
+        function askChatbot() {
+            const input = document.getElementById("chatbot-input").value.toLowerCase().trim();
+            let response = "";
+
+            if (!input) {
+                response = "Por favor, escribe una pregunta antes de enviar.";
+            } else if (input.includes("circuito")) {
+                response = "Para resolver el circuito, asegúrate de identificar los actuadores y válvulas involucradas.";
+            } else if (input.includes("neumático")) {
+                response = "En un sistema neumático, recuerda que el aire comprimido es el fluido utilizado. Asegúrate de tener válvulas de control adecuadas.";
+            } else if (input.includes("hidráulico")) {
+                response = "En un sistema hidráulico, el fluido es generalmente aceite. La presión y el caudal son críticos para su funcionamiento.";
+            } else {
+                response = "Lo siento, solo puedo responder preguntas relacionadas con sistemas neumáticos e hidráulicos.";
+            }
+
+            document.getElementById("chatbot-response").innerText = response;
+            document.getElementById("chatbot-input").value = ""; // Clear input
+        }
+    </script>
+
+</body>
+</html>
+
